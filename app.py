@@ -7,354 +7,6 @@ Original file is located at
     https://colab.research.google.com/github/heyhaysteph-source/youtrition/blob/main/Copy_of_Group_2_BIOT_670_Capstone_Project_Personalized_Microbiome_Recommendation_Model.ipynb
 """
 
-!jupyter nbconvert --to script to .py
-
-"""# **Model Testing**
-
-Download required files to 'My Drive' home directory of Google Drive. (Will add these files to main directory of UI script)
-
-**Links to established model, encoder, and scaler files:**
-
-Model - https://drive.google.com/file/d/19qQDY_G_RYnPjdnQo_q0l68M9cqYW89P/view?usp=drive_link
-
-Label Encoder - https://drive.google.com/file/d/1SBtZOELdiAB1dRSUxzsTiSyePCc6mtU4/view?usp=drive_link
-
-Scaler - https://drive.google.com/file/d/1UNHXUlL9Y02_nqJC9qLraV2t2rXJSpvb/view?usp=drive_link
-
-**Links to unique_species, X_train and y_features_list files:**
-
-Unique_species - https://drive.google.com/file/d/19FChxpwzmdg8gXN42Fatv4WOeiKS_iPW/view?usp=sharing
-
-X_train - https://drive.google.com/file/d/1-DAm2_a6EskjhMtahtYekNscOoEpaj59/view?usp=drive_link
-
-y_features_list - https://drive.google.com/file/d/1mkCMc692MQRE4lWTrmkZ7CaKl78It5FK/view?usp=drive_link
-
-
-**Link to completed testing/training dataset**
-https://drive.google.com/file/d/1mSHCBg5mfYDehSVFgMS_HFH1ohzd6UAY/view?usp=drive_link
-"""
-
-# Part 3 - End of Week 9
-# Model Testing
-# Output Generation and Associated Diet Recommendations
-
-import pandas as pd # To import datasets as dataframes
-pd.options.mode.chained_assignment = None  # default='warn'
-import numpy as np # To perform large scale mathematical operations on datasets as needed
-import matplotlib.pyplot as plt # For plotting data
-import seaborn as sns # For formatting matplotlib visualizations
-from sklearn.ensemble import RandomForestClassifier
-import joblib
-import os
-
-# Allow access to Google Drive to load files, only needed for Google Collab
-from google.colab import drive
-drive.mount('/content/drive')
-
-# Import complete_dataset_df_clean.csv from Drive, and load as Pandas dataframe
-complete_dataset_df_clean = pd.read_csv('/content/drive/MyDrive/complete_dataset_df_clean.csv')
-
-drive_path = '/content/drive/MyDrive/' # Path to .joblib files
-unique_species = joblib.load(os.path.join(drive_path, 'unique_species.joblib'))
-model_filename = 'random_forest_model.joblib'
-encoder_filename = 'label_encoder.joblib'
-scaler_filename = 'standard_scaler.joblib'
-model_save_path = os.path.join(drive_path, model_filename)
-
-X_features = ['ibs', 'ibd', 'diet_type', 'bowel_movement_frequency', 'bowel_movement_quality', 'country_of_birth', 'taxonomy_diet_category']
-X_features.extend(unique_species) # Include taxonomic data in the X inputs
-y_features = ['vegetable_frequency', 'red_meat_frequency', 'whole_grain_frequency', 'alcohol_frequency', 'milk_cheese_frequency', 'gluten', 'softener']
-
-X = complete_dataset_df_clean[X_features]
-y = complete_dataset_df_clean[y_features]
-
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=30)
-
-"""Example usage as follows:
-Prototype UI will allow user inputs to create an array of inputs structured as that in the training set.
-"""
-
-X_new = complete_dataset_df_clean[X_features].iloc[24171] # Example row taken from the training set
-X_new = X_new.to_frame()
-for column in X_new.columns:
-  X_new[column] = X_new[column].str.capitalize()
-X_new = X_new.transpose()
-
-X_train.head(1)
-
-X_new
-
-"""**Feature Levels**
-
- Below are examples for the various selections available for each of the X-features, based on the range of unique values present in the training data.
-"""
-
-complete_dataset_df_clean['country_of_birth'].unique() # Note capitalization should be the same as these levels
-
-complete_dataset_df_clean['ibs'].unique()
-
-complete_dataset_df_clean['ibd'].unique()
-
-complete_dataset_df_clean['vegetable_frequency'].unique() # All food_category_frequency levels use these same values
-
-complete_dataset_df_clean['bowel_movement_frequency'].unique()
-
-complete_dataset_df_clean['bowel_movement_quality'].unique()
-
-# # Defining Plants as diets self reported as Vegetarian or Vegan
-# complete_dataset_df_clean.loc[complete_dataset_df_clean['diet_type'] == 'Vegetarian', 'taxonomy_diet_category'] = 'Plants'
-# complete_dataset_df_clean.loc[complete_dataset_df_clean['diet_type'] == 'Vegan', 'taxonomy_diet_category'] = 'Plants'
-
-# # Hunter Gatherer defined as Omnivore and Vegetarian but eat seafood
-# complete_dataset_df_clean.loc[complete_dataset_df_clean['diet_type'] == 'Omnivore', 'taxonomy_diet_category'] = 'Hunter Gatherer'
-# complete_dataset_df_clean.loc[complete_dataset_df_clean['diet_type'] == 'Vegetarian but eat seafood', 'taxonomy_diet_category'] = 'Hunter Gatherer'
-
-# # Remote Farmer defined as Omnivore but do not eat red meat
-# complete_dataset_df_clean.loc[complete_dataset_df_clean['diet_type'] == 'Omnivore but do not eat red meat', 'taxonomy_diet_category'] = 'Remote Farmer'
-
-# # Country definition includes all else
-# complete_dataset_df_clean.loc[complete_dataset_df_clean['taxonomy_diet_category'].isna(), 'taxonomy_diet_category'] = 'Country'
-
-# The s__taxa_name categories for the taxonomy would be submitted as numerical values
-# Normally this would be input with a file from an individual's test results
-# But we could also input those manually for the prototype
-# List of all columns with s__ as its prefix
-s_columns = [col for col in X_train.columns if col.startswith('s__')]
-s_columns
-
-# The collective minimum and maximum values, from all the s__ taxa columns
-# (The range of present values taxa values would fall under)
-print(X_train[s_columns].min().min())
-print(X_train[s_columns].max().max())
-
-# Load required joblib files, model, encoder, scaler, X_train, and y_features
-# May take some time (a few minutes) because the model file is nearly 5GB
-# Best loaded individually due to the RAM usage of loading the model
-random_forest = joblib.load(model_save_path)
-
-encoder = joblib.load(os.path.join(drive_path, encoder_filename))
-scaler = joblib.load(os.path.join(drive_path, scaler_filename))
-X_train = joblib.load(os.path.join(drive_path, 'xtrain_dataframe.joblib'))
-y_features = joblib.load(os.path.join(drive_path, 'y_features_list.joblib'))
-
-# If not already imported
-from sklearn.preprocessing import LabelEncoder, StandardScaler
-import pandas as pd
-import numpy as np
-
-def predict_dietary_recommendations(input_data, model, encoder, scaler, X_features, y_features, unique_species, original_data_for_encoding):
-    """
-    Preprocesses input data, makes a prediction using the trained random forest model,
-    and returns the unencoded predictions with dietary recommendations.
-
-    Args:
-        input_data (dict): A dictionary containing the new data for prediction,
-                           with keys corresponding to the original feature names (so they aren't lost during encoding and scaling).
-        model: The trained machine learning model (RandomForestClassifier, loaded from our file).
-        encoder: The fitted LabelEncoder used for categorical features (the same one used to train the model).
-        scaler: The fitted StandardScaler used for numerical features (also the same one used to train the model).
-        X_features (list): A list of the original feature names used for training X.
-        y_features (list): A list of the original target feature names used for training y.
-        unique_species (list): A list of unique species names for taxonomic features.
-        original_data_for_encoding (pd.DataFrame): The original DataFrame used to fit the encoder,
-                                                  needed for inverse transforming predictions.
-
-    Returns:
-        A Pandas DataFrame containing the unencoded dietary recommendations
-                      and additional columns for recommended adjustments.
-    """
-    # Create a DataFrame from the input data (from the Streamlit app prototype)
-    X_new = pd.DataFrame([input_data])
-    original_data = pd.DataFrame([input_data]) # To save all inputs
-
-    # Add metagenome taxonomic columns to X_new and fill with 0 if not present
-    for species in unique_species:
-        if species not in X_new.columns:
-            X_new[species] = 0
-
-    # Convert numerical inputs from a bowel_movement_frequency_numerical column into the text-based bowel_movement_frequency_column
-    for index, row in X_new.iterrows():
-        if 'bowel_movement_frequency_numerical' in row and not pd.isna(row['bowel_movement_frequency_numerical']):
-            freq = int(row['bowel_movement_frequency_numerical'])
-            if freq == 1:
-                X_new.loc[index, 'bowel_movement_frequency'] = 'One'
-            elif freq == 2:
-                X_new.loc[index, 'bowel_movement_frequency'] = 'Two'
-            elif freq == 3:
-                X_new.loc[index, 'bowel_movement_frequency'] = 'Three'
-            elif freq == 4:
-                X_new.loc[index, 'bowel_movement_frequency'] = 'Four'
-            elif freq >= 5:
-                X_new.loc[index, 'bowel_movement_frequency'] = 'Five or more'
-
-    # Determine taxonomy diet category
-    X_new.loc[X_new['diet_type'] == 'Vegetarian', 'taxonomy_diet_category'] = 'Plants'
-    X_new.loc[X_new['diet_type'] == 'Vegan', 'taxonomy_diet_category'] = 'Plants'
-
-    X_new.loc[X_new['diet_type'] == 'Omnivore', 'taxonomy_diet_category'] = 'Hunter Gatherer'
-    X_new.loc[X_new['diet_type'] == 'Vegetarian but eat seafood', 'taxonomy_diet_category'] = 'Hunter Gatherer'
-
-    X_new.loc[X_new['diet_type'] == 'Omnivore but do not eat red meat', 'taxonomy_diet_category'] = 'Remote Farmer'
-
-    X_new.loc[X_new['taxonomy_diet_category'].isna(), 'taxonomy_diet_category'] = 'Country'
-
-    # Ensure X_new has the same columns as X_features (including taxonomic) and in the correct order
-    all_X_cols = X_features + unique_species
-    X_new = X_new.reindex(columns=all_X_cols, fill_value=0)
-
-    # Drop columns not in scope of the set X_features
-    X_new = X_new[X_features]
-
-    # Manually encode categorical features using the existing encoder
-    X_new_encoded = pd.DataFrame(index=X_new.index) # Create an empty DataFrame to store encoded features
-
-    for column in X_features:
-        if column in X_new.columns:
-            encoded_column_name = str(column) + '_encoded'
-            # Check if the encoder has seen this category
-            # Use .iloc[:, 0] to get the Series for a single-row DataFrame
-            if column in encoder.classes_:
-                 X_new_encoded[encoded_column_name] = encoder.transform(X_new[column].iloc[:, 0])
-            else:
-                # Handle unseen categories - assign a placeholder like -1 or NaN
-                X_new_encoded[encoded_column_name] = -1 # Assign a placeholder for unseen categories
-
-    # Add taxonomic columns to the encoded dataframe (they are already numeric)
-    for species in unique_species:
-        if species in X_new.columns:
-             # Use .iloc[:, 0] to get the Series for a single-row DataFrame
-             X_new_encoded[species + '_encoded'] = pd.to_numeric(X_new[species].iloc[:, 0], errors='coerce').fillna(0)
-        else:
-             X_new_encoded[species + '_encoded'] = 0 # Add missing taxonomic columns and fill with 0
-
-
-    # Reorder columns in X_new_encoded to match the order of X_train (assuming X_train is available in the global scope)
-    # A more robust solution would be to save and load the column order
-    # For now, we'll rely on X_train being in the global scope
-    try:
-        X_new_encoded = X_new_encoded[X_train.columns]
-    except NameError:
-        print("Warning: X_train not found in global scope. Column order might be incorrect.")
-        # In a real application, you would save and load the training column order
-
-
-    # Refit the scaler on the encoded training data (X_train)
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-
-
-    # Scale the processed new data using the refitted scaler
-    X_new_scaled = scaler.transform(X_new_encoded)
-
-    # Make prediction
-    y_pred_new = model.predict(X_new_scaled)
-
-    # Inverse transform the predictions to get the original labels
-    y_pred_unencoded = {}
-    # Get the original unencoded training data for inverse transformation
-    X_train_indices = X_train.index
-    y_train_original = original_data_for_encoding.loc[X_train_indices, y_features] # Use original_data_for_encoding here
-
-    for i, column in enumerate(y_features):
-        # Get the original unencoded data for this column from the training set
-        original_column_data = y_train_original[column].dropna()
-
-        # Create and fit a temporary LabelEncoder on the unique values of the original training data for this column
-        temp_encoder = LabelEncoder()
-        temp_encoder.fit(original_column_data.unique()) # Fit on unique non-null values from original training data
-
-        # Inverse transform the predictions for this column
-        y_pred_unencoded[column] = temp_encoder.inverse_transform(y_pred_new[:, i])
-
-    # Convert the unencoded predictions back to a DataFrame for better readability
-    y_pred_unencoded_df = pd.DataFrame(y_pred_unencoded)
-
-    # Add dietary recommendations based on X_new and y_pred_unencoded_df
-    recommendations = {}
-
-    # Increased Fiber Recommendation
-    bowel_movement_quality = X_new['bowel_movement_quality'].iloc[0] if 'bowel_movement_quality' in X_new.columns else None
-    vegetable_frequency = y_pred_unencoded_df['vegetable_frequency'].iloc[0] if 'vegetable_frequency' in y_pred_unencoded_df.columns else None
-    bowel_movement_frequency = X_new['bowel_movement_frequency'].iloc[0] if 'bowel_movement_frequency' in X_new.columns else None
-
-    if (bowel_movement_quality is not None and 'constipated' in str(bowel_movement_quality).lower()) or \
-       (vegetable_frequency is not None and vegetable_frequency not in ['Daily', 'Regularly (3-5 times/week)', 'Never', 'Not provided', 'Not collected']) or \
-       (bowel_movement_frequency is not None and bowel_movement_frequency in ['Four', 'Five or more']):
-        recommendations['Increased Fiber Recommendation'] = 'Consider increasing fiber intake, including addition of soluble fiber-rich vegetables.'
-    else:
-        recommendations['Increased Fiber Recommendation'] = np.nan
-
-    # Low FODMAP Recommendation
-    ibs_status = X_new['ibs'].iloc[0] if 'ibs' in X_new.columns else None
-    ibd_status = X_new['ibd'].iloc[0] if 'ibd' in X_new.columns else None
-
-    if (ibs_status is not None and ibs_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected']) or \
-       (ibd_status is not None and ibd_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected']):
-        recommendations['Low FODMAP Recommendation'] = 'Consider a Low FODMAP diet with decreased carbohydrates.'
-    else:
-        recommendations['Low FODMAP Recommendation'] = np.nan
-
-    # Reduce Dairy Intake Recommendation
-    milk_cheese_frequency = y_pred_unencoded_df['milk_cheese_frequency'].iloc[0] if 'milk_cheese_frequency' in y_pred_unencoded_df.columns else None
-
-    # No need to recommend the reduction of food categories the individual already indicated they don't include in their diet
-    if 'dairy_indicated' in original_data.columns and original_data['dairy_indicated'].iloc[0] == 'No':
-        recommendations['Reduce Dairy Recommendation'] = np.nan
-    elif (milk_cheese_frequency is not None and milk_cheese_frequency not in ['Rarely (less than once/week)', 'Never', 'Not provided', 'Not collected']) and \
-       ((ibs_status is not None and ibs_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected']) or \
-        (ibd_status is not None and ibd_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected'])):
-        recommendations['Reduce Dairy Recommendation'] = 'Consider reducing dairy intake or using dairy substitutes (such as soy or almond milk).'
-    else:
-        recommendations['Reduce Dairy Recommendation'] = np.nan
-
-    # Reduce Red Meat Intake Recommendation
-    red_meat_frequency = y_pred_unencoded_df['red_meat_frequency'].iloc[0] if 'red_meat_frequency' in y_pred_unencoded_df.columns else None
-
-    if 'red_meat_indicated' in original_data.columns and original_data['red_meat_indicated'].iloc[0] == 'No':
-        recommendations['Reduce Red Meat Recommendation'] = np.nan
-    elif (red_meat_frequency is not None and red_meat_frequency not in ['Rarely (less than once/week)', 'Occasionally (1-2 times/week)', 'Never', 'Not provided', 'Not collected']) and \
-       ((ibs_status is not None and ibs_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected']) or \
-        (ibd_status is not None and ibd_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected'])):
-        recommendations['Reduce Red Meat Recommendation'] = 'Consider reducing red meat intake.'
-    else:
-        recommendations['Reduce Red Meat Recommendation'] = np.nan
-
-    # Reduce Alcohol Intake Recommendation
-    alcohol_frequency = y_pred_unencoded_df['alcohol_frequency'].iloc[0] if 'alcohol_frequency' in y_pred_unencoded_df.columns else None
-    if 'alcohol_indicated' in original_data.columns and original_data['alcohol_indicated'].iloc[0] == 'No':
-        recommendations['Reduce Alcohol Recommendation'] = np.nan
-    elif (alcohol_frequency is not None and alcohol_frequency not in ['Rarely (a few times/month)', 'Never', 'Not provided', 'Not collected']) or \
-       (alcohol_frequency is not None and alcohol_frequency in ['Regularly (3-5 times/week)', 'Daily']):
-        recommendations['Reduce Alcohol Recommendation'] = 'Consider reducing alcohol intake.'
-    else:
-        recommendations['Reduce Alcohol Recommendation'] = np.nan
-
-
-    # Add recommendations to the output DataFrame
-    for rec, text in recommendations.items():
-        y_pred_unencoded_df[rec] = text
-
-    return y_pred_unencoded_df
-
-"""With the model itself loaded, as well as the label encoder (to convert column values to numerical categories) and the scaler (to standardize values), user data can be sent into the model using the above function."""
-
-# Test the predict_dietary_recommendations function with X_new
-predicted_diet_from_X_new = predict_dietary_recommendations(
-    X_new.iloc[0].to_dict(), # Pass the first row of X_new as a dictionary
-    random_forest,
-    encoder,
-    scaler,
-    X_features,
-    y_features,
-    unique_species,
-    complete_dataset_df_clean # Pass the original data for inverse encoding
-)
-
-# Display the predicted dietary recommendations
-print("Predicted Dietary Recommendations for X_new:")
-display(predicted_diet_from_X_new)
-
 """### UI Integration"""
 
 # Part 4 - End of Week 10
@@ -396,6 +48,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 import joblib
 import os
+import streamlit as st
+import gdown
 
 # Use the following variable names for loading each of the files:
 random_forest = joblib.load('random_forest_model.joblib')
@@ -405,6 +59,22 @@ scaler = joblib.load('standard_scaler.joblib')
 X_features = joblib.load('x_features.joblib')
 y_features = joblib.load('y_features_list.joblib')
 complete_dataset_df_clean = pd.read_csv('complete_dataset_df_clean.csv')
+
+# Download model from Google Drive if needed
+model_path = 'models/random_forest_model.joblib'
+drive_url = 'https://drive.google.com/uc?id=1n7wHSvr2SbyE9erfgqdl0BdXM97MBhgc'
+if not os.path.exists(model_path):
+    os.makedirs('models', exist_ok=True)
+    gdown.download(drive_url, model_path, quiet=False)
+
+# Load model and files
+random_forest = joblib.load(model_path)
+unique_species = joblib.load('models/unique_species.joblib')
+encoder = joblib.load('models/label_encoder.joblib')
+scaler = joblib.load('models/standard_scaler.joblib')
+X_features = joblib.load('models/x_features.joblib')
+y_features = joblib.load('models/y_features_list.joblib')
+complete_dataset_df_clean = pd.read_csv('data/complete_dataset_df_clean.csv')
 
 # User data import format uses a python dictionary structure:
 example_inputs_dict = {
@@ -421,6 +91,220 @@ example_inputs_dict = {
 
 # Microbiome data csv file will be converted to a dataframe and saved as a variable
 microbiome_data = pd.read_csv('template_microbiome_data.csv')
+
+#The code for the UI- using the names from above:
+import streamlit as st
+import pandas as pd
+
+# Page setup
+st.set_page_config(page_title="Youtrition", layout="centered")
+
+st.markdown("""
+    <style>
+        html, body, [class*="css"]  {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .circle {
+            width: 60px;
+            height: 60px;
+            background-color: #6d31fd;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 10px;
+        }
+        .semi-circle {
+            width: 60px;
+            height: 30px;
+            background-color: #ffdf5f;
+            border-top-left-radius: 60px;
+            border-top-right-radius: 60px;
+            display: inline-block;
+            margin: 10px;
+        }
+        .rectangle {
+            width: 120px;
+            height: 40px;
+            background-color: #066b6b;
+            display: inline-block;
+            margin: 10px;
+        }
+        .header {
+            font-size: 48px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .subheader {
+            font-size: 20px;
+            color: #ff8127;
+        }
+        .highlight {
+            background-color: #ffdf5f;
+            color: #000000;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .cta-button {
+            background-color: #ff8127;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            border: none;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+
+st.markdown('<div class="header">Youtrition</div>', unsafe_allow_html=True)
+st.markdown('<div class="subheader">Personalized nutrition from your gut microbes</div>', unsafe_allow_html=True)
+st.markdown('<div class="circle"></div><div class="semi-circle"></div><div class="rectangle"></div>', unsafe_allow_html=True)
+
+
+st.write("Please answer the following questions to calculate your personalized nutrition advice:")
+
+# Input fields
+ibs = st.selectbox("Do you have Irritable Bowel Syndrome (IBS)?", 
+                   ["Yes - Diagnosed by a Medical Professional", "Yes- Self Diagnosis", "No"])
+ibd = st.selectbox("Do you have Inflammatory Bowel Disease (IBD)?", 
+                   ["Yes - Diagnosed by a Medical Professional", "Yes- Self Diagnosis", "No"])
+diet_type = st.selectbox("What is your current diet type?", ["Omnivore", "Omnivore without Red Meat", "Vegetarian", "Vegan", "Pescatarian",])
+bowel_movement_frequency = st.slider("How many bowel movements do you have per day?", min_value=0, max_value=10, value=0)
+bowel_movement_quality = st.selectbox(
+    "How would you describe the quality of your bowel movements?",
+    [
+        "I don't know ",
+        "I tend to have normal formed stool",
+        "I tend to have diarrhea (watery stool)",
+        "I tend to be constipated (have difficulty passing stool)"
+    ]
+)
+
+# Country dropdown with 'United States' at the top
+countries = ['United states', 'Turkey', 'Australia', 'Singapore', 'Spain', 'Mexico', 'Czech republic',
+             'Trinidad and tobago', 'Canada', 'India', 'Belgium', 'Korea, republic of', 'Bangladesh',
+             'Philippines', 'Dominican republic', 'Moldova, republic of', 'China', 'Poland', 'Germany',
+             'Denmark', 'United kingdom', 'Ireland', 'Russian federation', 'Kenya', 'France', 'South africa',
+             'Venezuela', 'Guam', 'Argentina', 'Japan', 'Uruguay', 'Not provided', 'Greece', 'Switzerland',
+             'New zealand', 'Malawi', 'Finland', 'Puerto rico', 'Brazil', 'Kuwait', 'Hong kong', 'Pakistan',
+             'Italy', 'Jersey', 'Iran, islamic republic of', 'Romania', 'Zambia', 'Panama', 'Estonia', 'Chile',
+             'Croatia', 'Tanzania, united republic of', 'Syrian arab republic', 'Hungary', 'Uzbekistan',
+             'Gibraltar', 'Kazakhstan', 'Colombia', 'Norway', 'Ukraine', 'Albania', 'Serbia', 'Austria',
+             'Malaysia', 'Latvia', 'Nepal', 'Guatemala', 'Belarus', 'Ghana', 'Jamaica', 'Israel', 'Bolivia',
+             'Bulgaria', 'Portugal', 'Netherlands', 'Sweden', 'Viet nam', 'Mauritius', 'Tajikistan',
+             'Netherlands antilles', 'Thailand', 'Bahrain', 'Iceland', 'Uganda', 'Cyprus', 'Egypt', 'Cambodia',
+             'Luxembourg', 'Indonesia', 'Taiwan, province of china', 'Sri lanka', 'Slovenia', 'Peru',
+             'Not collected', 'Bosnia and herzegovina', 'United arab emirates',
+             'United states minor outlying islands', 'Saudi arabia', 'Mongolia', 'Malta', 'Zimbabwe',
+             'Libyan arab jamahiriya', 'Lithuania', 'Morocco', 'El salvador', 'Guernsey', 'Azerbaijan', 'Fiji',
+             'Tunisia', 'Virgin islands, u.s.', 'Nigeria', 'Costa rica', 'Cuba', 'Slovakia', 'Ethiopia',
+             'Afghanistan', "Cote d'ivoire", 'Algeria', 'Paraguay', 'Lebanon', 'Dominica', 'Bermuda', 'Angola',
+             'Somalia', 'Sudan', 'Guyana', 'Isle of man', 'Palestinian territory, occupied', 'Iraq', 'Botswana',
+             'Seychelles', 'Macedonia, the former yugoslav republic of', 'Georgia']
+
+sorted_countries = sorted(set(countries), key=lambda x: x.lower())
+if 'United states' in sorted_countries:
+    sorted_countries.remove('United states')
+    sorted_countries.insert(0, 'United states')
+
+country_of_birth = st.selectbox("What country were you born in?", sorted_countries)
+
+
+
+# Microbiome Excel uploader
+st.markdown("### Upload your gut microbiome data")
+uploaded_file = st.file_uploader(
+    "Upload your gut microbiome data (Excel format: .xlsx or .xls)",
+    type=["xlsx", "xls"]
+)
+
+required_species = [
+    's__copri', 's__stutzeri', 's__uniformis', 's__johnsonii', 's__faecis', 's__mucosae', 's__mucilaginosa',
+    's__diminuta', 's__luteciae', 's__rhizosphaerae', 's__catus', 's__eutactus', 's__perfringens',
+    's__adolescentis', 's__prausnitzii', 's__gnavus', 's__biforme', 's__stercorea', 's__veronii', 's__lwoffii',
+    's__piliforme', 's__bromii', 's__dispar', 's__muciniphila', 's__caccae', 's__ruminis', 's__acidaminiphila',
+    's__ovatus', 's__aerofaciens', 's__nitroreducens', 's__parainfluenzae', 's__obeum'
+]
+
+if uploaded_file:
+    try:
+        df = pd.read_excel(uploaded_file)
+        missing_cols = [col for col in required_species if col not in df.columns]
+
+        if missing_cols:
+            st.error(f"Missing required species columns: {missing_cols}")
+        else:
+            st.success("All required species columns are present.")
+            microbiome_data = df[required_species].copy()
+            for col in microbiome_data.columns:
+                microbiome_data[col] = pd.to_numeric(microbiome_data[col], errors='coerce')
+            st.write("Preview of your formatted microbiome data:")
+            st.dataframe(microbiome_data.head())
+
+    except Exception as e:
+        st.error(f"Error reading or processing file: {e}")
+
+# Submit button
+if st.button("Submit"):
+    if uploaded_file and 'microbiome_data' in locals():
+        st.success("Thank you! Your responses have been recorded.")
+        st.write("Here's a summary of your input:")
+        st.write({
+            "IBS": ibs,
+            "IBD": ibd,
+            "Diet Type": diet_type,
+            "Bowel Movement Frequency": bowel_movement_frequency,
+            "Bowel Movement Quality": bowel_movement_quality,
+            "Country of Birth": country_of_birth,
+        })
+
+        # Build input dictionary for prediction
+        input_data = {
+            'ibs': 'True' if 'Yes' in ibs else 'False',
+            'ibd': 'True' if 'Yes' in ibd else 'False',
+            'diet_type': diet_type,
+            'Do you consume dairy products?': dairy_indicated,
+            'Do you consume red meat?': red_meat_indicated,
+            'Do you consume alcohol?': alcohol_indicated,
+            'bowel_movement_frequency_numerical': bowel_movement_frequency,
+            'bowel_movement_quality': bowel_movement_quality,
+            'country_of_birth': country_of_birth,
+            'dairy_indicated': dairy_indicated,
+            'red_meat_indicated': red_meat_indicated,
+            'alcohol_indicated': alcohol_indicated
+        }
+
+        # Run prediction
+        try:
+            prediction_df = predict_dietary_recommendations(
+                input_data,
+                microbiome_data,
+                random_forest,
+                encoder,
+                scaler,
+                X_features,
+                y_features,
+                unique_species,
+                complete_dataset_df_clean
+            )
+
+            st.markdown("### Your Predicted Dietary Frequencies")
+            st.dataframe(prediction_df[y_features])
+
+            st.markdown("### Recommended Adjustments")
+            for col in prediction_df.columns:
+                if "Recommendation" in col and pd.notna(prediction_df.loc[0, col]):
+                    st.markdown(f"✅ **{col.replace('_', ' ')}:** {prediction_df.loc[0, col]}")
+
+        except Exception as e:
+            st.error(f"Prediction failed: {e}")
+    else:
+        st.error("Please upload your microbiome Excel file before submitting.")
+
+
+
+
 
 # The self contained prediction function
 
@@ -641,14 +525,17 @@ predicted_diet_from_example_inputs = predict_dietary_recommendations(
     y_features,
     unique_species,
     complete_dataset_df_clean # Pass the original data for inverse encoding
+
+
+#Allow us to return recomendations 
+output_df = y_pred_unencoded_df.copy()
+for key, value in recommendations.items():
+    output_df[key] = value
+return output_df
+
 )
 
-# Display the predicted dietary recommendations
-print("Predicted Dietary Recommendations for X_new:")
-display(predicted_diet_from_example_inputs)
 
-# The text for individual columns can then be retrieved as follows:
-predicted_diet_from_example_inputs.loc[0, 'Increased Fiber Recommendation']
 
 """## References
 
