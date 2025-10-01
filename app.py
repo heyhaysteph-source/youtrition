@@ -493,7 +493,11 @@ def predict_dietary_recommendations(input_data, microbiome_data, model, encoder,
     for rec, text in recommendations.items():
         y_pred_unencoded_df[rec] = text
 
-    return y_pred_unencoded_df
+    #Allow us to return recomendations 
+    output_df = y_pred_unencoded_df.copy()
+        for key, value in recommendations.items():
+    output_df[key] = value
+    return output_df
 
 # First, allow the user to input their information via the UI, starting with IBS or IBD diagnosis
 # Using these levels:
@@ -527,11 +531,7 @@ predicted_diet_from_example_inputs = predict_dietary_recommendations(
     complete_dataset_df_clean) # Pass the original data for inverse encoding
 
 
-#Allow us to return recomendations 
-output_df = y_pred_unencoded_df.copy()
-for key, value in recommendations.items():
-    output_df[key] = value
-return output_df
+
 
 
 
