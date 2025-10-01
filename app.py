@@ -524,7 +524,7 @@ predicted_diet_from_example_inputs = predict_dietary_recommendations(
     X_features,
     y_features,
     unique_species,
-    complete_dataset_df_clean # Pass the original data for inverse encoding
+    complete_dataset_df_clean) # Pass the original data for inverse encoding
 
 
 #Allow us to return recomendations 
