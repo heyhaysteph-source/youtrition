@@ -533,7 +533,6 @@ for key, value in recommendations.items():
     output_df[key] = value
 return output_df
 
-)
 
 
 
