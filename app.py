@@ -489,11 +489,11 @@ def predict_dietary_recommendations(input_data, microbiome_data, model, encoder,
         recommendations['Reduce Alcohol Recommendation'] = np.nan
 
 # Add recommendations to the output DataFrame
-output_df = y_pred_unencoded_df.copy()
-for key, value in recommendations.items():
-    output_df[key] = value
+    output_df = y_pred_unencoded_df.copy()
+    for key, value in recommendations.items():
+        output_df[key] = value
 
-return output_df
+    return output_df
 
 # First, allow the user to input their information via the UI, starting with IBS or IBD diagnosis
 # Using these levels:
