@@ -7,7 +7,7 @@ import random
 st.set_page_config(page_title="Youtrition", layout="centered")
 
 # Custom CSS styling
-st.markdown("""
+st.markdown(
     <syle>
         .circle {
             width: 60px;
