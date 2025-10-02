@@ -49,27 +49,41 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 import joblib
 import os
 import streamlit as st
-import gdown
-
-
-
-import streamlit as st
-st.set_page_config(page_title="Youtrition", layout="centered")
-
+import urllib.request
 
 #troubleshooting
 st.write("App is loading...")
 
-
-# Download model from Google Drive if needed
-model_path = 'models/random_forest_model.joblib'
-drive_url = 'https://drive.google.com/uc?id=1n7wHSvr2SbyE9erfgqdl0BdXM97MBhgc'
-if not os.path.exists(model_path):
-    os.makedirs('models', exist_ok=True)
-    gdown.download(drive_url, model_path, quiet=False)
+import streamlit as st
+st.set_page_config(page_title="Youtrition", layout="centered")
 
 #troubleshooting
 st.write("Model is loading...")
+
+
+# 🔹 Model download block (insert here)
+model_url = "https://huggingface.co/heyhaysteph/youtrition_random_forest/resolve/c0d0f1b5b23aa26b7050c96b53bcfc02954de48d/random_forest_model.joblib"
+model_path = "models/random_forest_model.joblib"
+
+if not os.path.exists(model_path):
+    os.makedirs("models", exist_ok=True)
+    try:
+        st.write("📥 Downloading model from Hugging Face...")
+        urllib.request.urlretrieve(model_url, model_path)
+        st.success("✅ Model downloaded successfully.")
+    except Exception as e:
+        st.error(f"❌ Failed to download model: {e}")
+
+# 🔹 Model loading block (after download)
+try:
+    random_forest = joblib.load(model_path)
+    st.write("✅ Model loaded successfully.")
+except Exception as e:
+    st.error(f"❌ Failed to load model: {e}")
+
+
+
+
 
 
 # Load model and files
