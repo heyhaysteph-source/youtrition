@@ -108,21 +108,15 @@ st.markdown("""
             background-color: #ffdf5f !important;
             color: #000000 !important;
         }
-        /* Style radio button labels (answers) */
-            div[data-baseweb="radio"] label {
-            color: #6d31fd !important; /* default text color */
+
+        /* Style selected radio button answer */
+        div[data-baseweb="radio"] input:checked + div {
+            background-color: #ffdf5f !important; /* yellow background */
+            color: #000000 !important; /* black text */
             font-weight: bold;
+            border-radius: 6px;
+            padding: 8px 12px;
         }
-
-/* Style selected radio button answer */
-div[data-baseweb="radio"] input:checked + div {
-    background-color: #ffdf5f !important; /* yellow background */
-    color: #000000 !important; /* black text */
-    font-weight: bold;
-    border-radius: 6px;
-    padding: 8px 12px;
-}
-
         /* Make form labels (questions) white */
         label, .stSelectbox label, .stRadio label, .stSlider label {
             color: #ffffff !important;
