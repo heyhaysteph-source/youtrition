@@ -138,7 +138,7 @@ st.markdown('<div class="subheader">Personalized nutrition from your gut microbe
 st.markdown('<div class="circle"></div><div class="semi-circle"></div><div class="rectangle"></div>', unsafe_allow_html=True)
 
 # Input fields
-st.markdown('<div class="subheader2">Please answer the following questions to calculate your personalized nutrition advice:</div>', unsafe_allow_html=True)
+st.markdown('<div class="subheader4">Please answer the following questions to calculate your personalized nutrition advice:</div>', unsafe_allow_html=True)
 
 
 ibs = st.selectbox("Do you have Irritable Bowel Syndrome (IBS)?", 
@@ -189,7 +189,7 @@ if 'United states' in sorted_countries:
 country_of_birth = st.selectbox("What country were you born in?", sorted_countries)
 
 # Microbiome Excel uploader
-st.markdown('<div class="subheader2">Upload Your Gut Biome Data </div>', unsafe_allow_html=True)
+st.markdown('<div class="subheader3">Upload Your Gut Biome Data </div>', unsafe_allow_html=True)
 uploaded_file = st.file_uploader(
     "Upload your gut microbiome data (Excel format: .xlsx or .xls)",
     type=["xlsx", "xls"]
