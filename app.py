@@ -84,39 +84,38 @@ st.markdown("""
             font-weight: bold;
             border: none;
         }
-        /* Style radio buttons like neon buttons */
+        /* Style radio button container */
         div[data-baseweb="radio"] > div {
             background-color: #000000;
             border-radius: 8px;
             padding: 10px;
         }
-        div[data-baseweb="radio"] label {
+
+        /* Style each radio option */
+        div[data-baseweb="radio"] div[role="radio"] {
+            background-color: #6d31fd;
             color: #ffffff;
             font-weight: bold;
-            background-color: #6d31fd;
             border-radius: 6px;
             padding: 8px 12px;
             margin: 5px;
-            display: inline-block;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        div[data-baseweb="radio"] label:hover {
+
+        /* Hover effect */
+            div[data-baseweb="radio"] div[role="radio"]:hover {
             background-color: #ff8127;
         }
-        div[data-baseweb="radio"] input:checked + div {
+
+        /* Selected radio option */
+            div[data-baseweb="radio"] div[aria-checked="true"] {
             background-color: #ffdf5f !important;
             color: #000000 !important;
         }
 
-        /* Style selected radio button answer */
-        div[data-baseweb="radio"] input:checked + div {
-            background-color: #ffdf5f !important; /* yellow background */
-            color: #000000 !important; /* black text */
-            font-weight: bold;
-            border-radius: 6px;
-            padding: 8px 12px;
-        }
+
+        
         /* Make form labels (questions) white */
         label, .stSelectbox label, .stRadio label, .stSlider label {
             color: #ffffff !important;
