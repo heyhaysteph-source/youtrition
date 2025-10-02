@@ -63,7 +63,7 @@ st.write("App is loading...")
 
 # Download model from Google Drive if needed
 model_path = 'models/random_forest_model.joblib'
-drive_url = 'https://drive.google.com/1n7wHSvr2SbyE9erfgqdl0BdXM97MBhgc'
+drive_url = 'https://drive.google.com/uc?id=1n7wHSvr2SbyE9erfgqdl0BdXM97MBhgc'
 if not os.path.exists(model_path):
     os.makedirs('models', exist_ok=True)
     gdown.download(drive_url, model_path, quiet=False)
