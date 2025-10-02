@@ -50,6 +50,13 @@ import os
 import streamlit as st
 import gdown
 
+import streamlit as st
+st.set_page_config(page_title="Youtrition", layout="centered")
+
+# Now continue with everything else
+st.write("App is loading...")
+
+
 #troubleshooting
 st.write("App is loading...")
 
@@ -83,7 +90,6 @@ st.write("Documents are loading...")
 #The code for the UI- using the names from above:
 
 # Page setup
-st.set_page_config(page_title="Youtrition", layout="centered")
 
 st.markdown("""
     <style>
