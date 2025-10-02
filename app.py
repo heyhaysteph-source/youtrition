@@ -96,7 +96,7 @@ st.markdown("""
         }
         /* Style radio button labels (answers) */
             div[data-baseweb="radio"] label {
-            color: #ffffff !important; /* default text color */
+            color: #6d31fd !important; /* default text color */
             font-weight: bold;
         }
 
