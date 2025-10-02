@@ -94,7 +94,7 @@ st.markdown("""
         }
         /* Force checkbox label text to white */
         div[data-baseweb="checkbox"] label {
-            color: #ffffff !important;
+            color: #6d31fd !important;
             font-weight: bold;
         }
 
