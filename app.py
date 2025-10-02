@@ -61,6 +61,9 @@ if not os.path.exists(model_path):
     os.makedirs('models', exist_ok=True)
     gdown.download(drive_url, model_path, quiet=False)
 
+#troubleshooting
+st.write("Model is loading...")
+
 # Load model and files
 try:
     random_forest = joblib.load('models/random_forest_model.joblib')
@@ -74,7 +77,8 @@ try:
 except Exception as e:
     st.error(f"Error loading model or data: {e}")
 
-
+#troubleshooting
+st.write("Documents are loading...")
 
 #The code for the UI- using the names from above:
 import streamlit as st
