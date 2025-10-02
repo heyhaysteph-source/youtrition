@@ -71,7 +71,7 @@ if not os.path.exists(model_path):
 #troubleshooting
 st.write("Model is loading...")
 
-"""
+
 # Load model and files
 try:
     random_forest = joblib.load('models/random_forest_model.joblib')
@@ -84,7 +84,7 @@ try:
     st.success("Model and data loaded successfully.")
 except Exception as e:
     st.error(f"Error loading model or data: {e}")
-"""
+
 #troubleshooting
 st.write("Documents are loading...")
 
