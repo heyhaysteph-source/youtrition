@@ -124,7 +124,8 @@ st.markdown('<div class="subheader">Personalized nutrition from your gut microbe
 st.markdown('<div class="circle"></div><div class="semi-circle"></div><div class="rectangle"></div>', unsafe_allow_html=True)
 
 # Input fields
-st.markdown('<div class="subheader">"Please answer the following questions to calculate your personalized nutrition advice:</div>", unsafe_allow_html=True)
+st.markdown('<div class="subheader">Please answer the following questions to calculate your personalized nutrition advice:</div>', unsafe_allow_html=True)
+
 
 ibs = st.selectbox("Do you have Irritable Bowel Syndrome (IBS)?", 
                    ["","Yes - Diagnosed by a Medical Professional", "Yes- Self Diagnosis", "No"])
