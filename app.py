@@ -77,7 +77,7 @@ if not os.path.exists(model_path):
 # 🔹 Model loading block (after download)
 try:
     random_forest = joblib.load(model_path)
-    st.write("✅ Model loaded successfully.")
+    st.success("✅ Model loaded successfully.")
 except Exception as e:
     st.error(f"❌ Failed to load model: {e}")
 
@@ -86,6 +86,7 @@ except Exception as e:
 
 
 
+"""
 # Load model and files
 try:
     random_forest = joblib.load('models/random_forest_model.joblib')
@@ -101,7 +102,7 @@ except Exception as e:
 
 #troubleshooting
 st.write("Documents are loading...")
-
+"""
 #The code for the UI- using the names from above:
 
 st.markdown("""
