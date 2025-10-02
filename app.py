@@ -313,7 +313,7 @@ if st.button("Submit"):
 def predict_dietary_recommendations(input_data, microbiome_data, model, encoder, scaler, X_features, y_features, unique_species, original_data_for_encoding):
 """
 
-    """
+"""
     Preprocesses input data, makes a prediction using the trained random forest model,
     and returns the unencoded predictions with dietary recommendations.
 
