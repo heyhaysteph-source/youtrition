@@ -167,6 +167,11 @@ bowel_movement_quality = st.selectbox(
     ]
 )
 
+dairy_indicated = st.selectbox("Do you consume dairy products?", ["Yes", "No"])
+red_meat_indicated = st.selectbox("Do you consume red meat?", ["Yes", "No"])
+alcohol_indicated = st.selectbox("Do you consume alcohol?", ["Yes", "No"])
+
+
 # Country dropdown with 'United States' at the top
 countries = ['United states', 'Turkey', 'Australia', 'Singapore', 'Spain', 'Mexico', 'Czech republic',
              'Trinidad and tobago', 'Canada', 'India', 'Belgium', 'Korea, republic of', 'Bangladesh',
