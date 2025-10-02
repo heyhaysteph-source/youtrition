@@ -92,11 +92,14 @@ st.markdown("""
         label, .stSelectbox label, .stRadio label, .stSlider label {
             color: #ffffff !important;
         }
-        /* Force toggle label text to white */
-        div[data-baseweb="switch"] > div:first-child > div:last-child {
+        /* Force checkbox label text to white */
+        div[data-baseweb="checkbox"] label {
             color: #ffffff !important;
             font-weight: bold;
-}
+        }
+
+       
+
 
 
 
