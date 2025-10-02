@@ -81,8 +81,6 @@ except Exception as e:
 st.write("Documents are loading...")
 
 #The code for the UI- using the names from above:
-import streamlit as st
-import pandas as pd
 
 # Page setup
 st.set_page_config(page_title="Youtrition", layout="centered")
