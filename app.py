@@ -261,30 +261,30 @@ if st.button("Submit"):
 
         # Run prediction
         try:
-      #      prediction_df = predict_dietary_recommendations(
-       #         input_data,
-        #        microbiome_data,
-         #       random_forest,
-          #      encoder,
-           #     scaler,
-            #    X_features,
-             #   y_features,
-        #        unique_species,
-         #       complete_dataset_df_clean
-          #  )
-#
-    #        st.markdown("### Your Predicted Dietary Frequencies")
-      #      st.dataframe(prediction_df[y_features])
+            prediction_df = predict_dietary_recommendations(
+                input_data,
+                microbiome_data,
+                random_forest,
+                encoder,
+                scaler,
+                X_features,
+                y_features,
+                unique_species,
+                 complete_dataset_df_clean
+            )
 
- #           st.markdown("### Recommended Adjustments")
-  #          for col in prediction_df.columns:
-   #             if "Recommendation" in col and pd.notna(prediction_df.loc[0, col]):
-    #                st.markdown(f"✅ **{col.replace('_', ' ')}:** {prediction_df.loc[0, col]}")
+            st.markdown("### Your Predicted Dietary Frequencies")
+            st.dataframe(prediction_df[y_features])
 
-#        except Exception as e:
- #           st.error(f"Prediction failed: {e}")
- #   else:
-  #      st.error("Please upload your microbiome Excel file before submitting.")
+            st.markdown("### Recommended Adjustments")
+            for col in prediction_df.columns:
+                if "Recommendation" in col and pd.notna(prediction_df.loc[0, col]):
+                    st.markdown(f"✅ **{col.replace('_', ' ')}:** {prediction_df.loc[0, col]}")
+
+        except Exception as e:
+            st.error(f"Prediction failed: {e}")
+    else:
+        st.error("Please upload your microbiome Excel file before submitting.")
 
 
 
