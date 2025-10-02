@@ -71,7 +71,7 @@ if not os.path.exists(model_path):
 #troubleshooting
 st.write("Model is loading...")
 
-"""
+
 # Load model and files
 try:
     random_forest = joblib.load('models/random_forest_model.joblib')
@@ -87,7 +87,7 @@ except Exception as e:
 
 #troubleshooting
 st.write("Documents are loading...")
-"""
+
 #The code for the UI- using the names from above:
 
 st.markdown("""
