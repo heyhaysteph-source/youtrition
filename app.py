@@ -92,11 +92,12 @@ st.markdown("""
         label, .stSelectbox label, .stRadio label, .stSlider label {
             color: #ffffff !important;
         }
-        /* Make toggle labels white */
-        div[data-baseweb="switch"] span {
+        /* Force toggle label text to white */
+        div[data-baseweb="switch"] > div:first-child > div:last-child {
             color: #ffffff !important;
             font-weight: bold;
-        }
+}
+
 
 
         
@@ -157,7 +158,7 @@ if 'United states' in sorted_countries:
     sorted_countries.insert(0, 'United states')
 country_of_birth = st.selectbox("What country were you born in?", sorted_countries)
 
-st.markdown('<div class="subheader3">Which of these foods do you reguarly consume?</div>', unsafe_allow_html=True)
+st.markdown('<div class="subheader2">Which of these foods do you reguarly consume?</div>', unsafe_allow_html=True)
 
 items = [
     "Milk", "Yogurt", "Cheese", "Butter", "Ice Cream", "Cream", "Cottage Cheese",
