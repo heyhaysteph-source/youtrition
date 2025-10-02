@@ -10,8 +10,17 @@ st.set_page_config(page_title="Youtrition", layout="centered")
 st.markdown("""
     <style>
         html, body, [class*="css"]  {
-            background-color: #000000;
-            color: #ffffff;
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+        .main {
+            background-color: #000000 !important;
+        }
+        header, .css-1v3fvcr, .css-1dp5vir {
+            background-color: #000000 !important;
+        }
+        .stApp {
+            background-color: #000000 !important;
         }
         .circle {
             width: 60px;
@@ -61,6 +70,30 @@ st.markdown("""
             font-weight: bold;
             border: none;
         }
+        /* Style radio buttons like neon buttons */
+        div[data-baseweb="radio"] > div {
+            background-color: #000000;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        div[data-baseweb="radio"] label {
+            color: #ffffff;
+            font-weight: bold;
+            background-color: #6d31fd;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin: 5px;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        div[data-baseweb="radio"] label:hover {
+            background-color: #ff8127;
+        }
+        div[data-baseweb="radio"] input:checked + div {
+            background-color: #ffdf5f !important;
+            color: #000000 !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -73,23 +106,24 @@ st.markdown('<div class="circle"></div><div class="semi-circle"></div><div class
 st.write("Please answer the following questions to calculate your personalized nutrition advice:")
 
 ibs = st.selectbox("Do you have Irritable Bowel Syndrome (IBS)?", 
-                   ["Yes - Diagnosed by a Medical Professional", "Yes- Self Diagnosis", "No"])
+                   ["","Yes - Diagnosed by a Medical Professional", "Yes- Self Diagnosis", "No"])
 ibd = st.selectbox("Do you have Inflammatory Bowel Disease (IBD)?", 
-                   ["Yes - Diagnosed by a Medical Professional", "Yes- Self Diagnosis", "No"])
-diet_type = st.selectbox("What is your current diet type?", ["Omnivore", "Omnivore without Red Meat", "Vegetarian", "Vegan", "Pescatarian"])
+                   ["","Yes - Diagnosed by a Medical Professional", "Yes- Self Diagnosis", "No"])
+diet_type = st.selectbox("What is your current diet type?", ["","Omnivore","Vegetarian", "Vegan", "Pescatarian"])
 bowel_movement_frequency = st.slider("How many bowel movements do you have per day?", min_value=0, max_value=10, value=0)
 bowel_movement_quality = st.selectbox(
     "How would you describe the quality of your bowel movements?",
-    [
+    [   "",
         "I don't know ",
         "I tend to have normal formed stool",
         "I tend to have diarrhea (watery stool)",
         "I tend to be constipated (have difficulty passing stool)"
     ]
 )
-dairy_indicated = st.selectbox("Do you consume dairy products?", ["Yes", "No"])
-red_meat_indicated = st.selectbox("Do you consume red meat?", ["Yes", "No"])
-alcohol_indicated = st.selectbox("Do you consume alcohol?", ["Yes", "No"])
+dairy_indicated = st.radio("Do you consume dairy products?", ["Yes", "No"], horizontal=True)
+red_meat_indicated = st.radio("Do you consume red meat?", ["Yes", "No"], horizontal=True)
+alcohol_indicated = st.radio("Do you consume alcohol?", ["Yes", "No"], horizontal=True)
+
 
 # Country dropdown
 countries = ['United states', 'Turkey', 'Australia', 'Singapore', 'Spain', 'Mexico', 'Czech republic',
@@ -195,7 +229,7 @@ if st.button("Submit"):
                 recommendation = 'Consider a Low FODMAP diet with decreased carbohydrates.'
             elif rando_rec == 3:
                 recommendation = 'Consider reducing red meat intake.'
-            elif rando_rec == 4 and dairy_indicated == "Yes":
+            elif rando_rec == 4:
                 recommendation = 'Consider reducing dairy intake.'
             elif rando_rec == 5:
                 recommendation = 'Consider reducing alcohol intake.'
