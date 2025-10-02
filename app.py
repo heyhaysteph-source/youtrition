@@ -93,7 +93,7 @@ st.markdown("""
             color: #ffffff !important;
         }
         /* Make toggle labels white */
-        div[data-baseweb="switch"] {
+        div[data-baseweb="switch"] span {
             color: #ffffff !important;
             font-weight: bold;
         }
@@ -177,11 +177,11 @@ for i in range(0, len(items), 4):
                 selected_items.append(item)
 
 
-dairy_indicated = any(item in foods_consumed for item in ["Milk", "Yogurt", "Cheese", "Butter", "Ice Cream", "Cream", "Cottage Cheese"])
-red_meat_indicated = any(item in foods_consumed for item in ["Beef", "Lamb", "Pork", "Bacon", "Sausage", "Veal", "Goat"])
-alcohol_indicated = any(item in foods_consumed for item in ["Beer", "Wine", "Spirits", "Cocktails", "Cider", "Hard Seltzer"])
-low_fiber_indicated = any(item in foods_consumed for item in ["White Bread", "White Rice", "Pasta", "Processed Snacks", "Pastries", "Canned Fruit", "Fruit Juice"])
-high_fodmap_indicated = any(item in foods_consumed for item in ["Onions", "Garlic", "Apples", "Pears", "Watermelon", "Wheat", "Cashews", "Legumes", "Cauliflower"])
+dairy_indicated = any(item in selected_items for item in ["Milk", "Yogurt", "Cheese", "Butter", "Ice Cream", "Cream", "Cottage Cheese"])
+red_meat_indicated = any(item in selected_items for item in ["Beef", "Lamb", "Pork", "Bacon", "Sausage", "Veal", "Goat"])
+alcohol_indicated = any(item in selected_items for item in ["Beer", "Wine", "Spirits", "Cocktails", "Cider", "Hard Seltzer"])
+low_fiber_indicated = any(item in selected_items for item in ["White Bread", "White Rice", "Pasta", "Processed Snacks", "Pastries", "Canned Fruit", "Fruit Juice"])
+high_fodmap_indicated = any(item in selected_items for item in ["Onions", "Garlic", "Apples", "Pears", "Watermelon", "Wheat", "Cashews", "Legumes", "Cauliflower"])
 
 
 
