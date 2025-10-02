@@ -8,7 +8,7 @@ st.set_page_config(page_title="Youtrition", layout="centered")
 
 # Custom CSS styling
 st.markdown("""
-    <syle>
+    <style>
         .circle {
             width: 60px;
             height: 60px;
