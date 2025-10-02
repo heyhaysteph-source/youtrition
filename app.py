@@ -167,14 +167,12 @@ items = [
     "White Bread", "White Rice", "Pasta", "Processed Snacks", "Pastries", "Canned Fruit", "Fruit Juice",
     "Onions", "Garlic", "Apples", "Pears", "Watermelon", "Wheat", "Milk (FODMAP)", "Legumes", "Cauliflower"
 ]
-
-# Create toggles in a grid
 selected_items = []
 for i in range(0, len(items), 4):
     cols = st.columns(4)
     for j, item in enumerate(items[i:i+4]):
         with cols[j]:
-            if st.toggle(item):
+            if st.checkbox(f"**{item}**"):
                 selected_items.append(item)
 
 
