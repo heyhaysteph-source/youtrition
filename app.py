@@ -139,7 +139,7 @@ items = [
     "Beef", "Lamb", "Pork", "Bacon", "Sausage", "Veal", "Goat",
     "Beer", "Wine", "Spirits", "Cocktails", "Cider", "Hard Seltzer",
     "White Bread", "White Rice", "Pasta", "Processed Snacks", "Pastries", "Canned Fruit", "Fruit Juice",
-    "Onions", "Garlic", "Apples", "Pears", "Watermelon", "Wheat", "Milk (FODMAP)", "Legumes", "Cauliflower"
+    "Onions", "Garlic", "Apples", "Pears", "Watermelon", "Wheat", "Cashews", "Legumes", "Cauliflower"
 ]
 selected_items = []
 for i in range(0, len(items), 4):
@@ -267,6 +267,13 @@ if st.button("Submit"):
                 "Cashews": "Almonds or macadamia nuts",
                 "Legumes": "Firm tofu or canned lentils (rinsed)",
                 "Cauliflower": "Zucchini or eggplant"
+                "Milk": "Oat milk or almond milk",
+                "Yogurt": "Coconut yogurt or soy yogurt",
+                "Cheese": "Cashew cheese or nutritional yeast",
+                "Butter": "Olive oil",
+                "Ice Cream": "Banana-based ice cream",
+                "Cream": "Coconut cream",
+                "Cottage Cheese": "Silken tofu or hummus"
             }
 
             red_meat_swaps = {
@@ -283,7 +290,7 @@ if st.button("Submit"):
                 "Milk": "Oat milk or almond milk",
                 "Yogurt": "Coconut yogurt or soy yogurt",
                 "Cheese": "Cashew cheese or nutritional yeast",
-                "Butter": "Olive oil or Avocado oil",
+                "Butter": "Olive oil",
                 "Ice Cream": "Banana-based ice cream",
                 "Cream": "Coconut cream",
                 "Cottage Cheese": "Silken tofu or hummus"
@@ -333,7 +340,7 @@ if st.button("Submit"):
 
 
             if swap_recommendations:
-                st.markdown('<div class="subheader4">🔄 Suggested Swaps:</div>', unsafe_allow_html=True)
+                st.markdown('<div class="subheader2">🔄 Suggested Swaps:</div>', unsafe_allow_html=True)
 
                 for swap in swap_recommendations:
                     st.markdown(f"- {swap}")
