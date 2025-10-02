@@ -84,38 +84,10 @@ st.markdown("""
             font-weight: bold;
             border: none;
         }
-        /* Style radio button container */
-        div[data-baseweb="radio"] > div {
-            background-color: #000000;
-            border-radius: 8px;
-            padding: 10px;
-        }
-
-        /* Style each radio option */
-        div[data-baseweb="radio"] div[role="radio"] {
-            background-color: #6d31fd;
-            color: #ffffff;
+        .stMultiSelect label {
+            color: #ffffff !important;
             font-weight: bold;
-            border-radius: 6px;
-            padding: 8px 12px;
-            margin: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
         }
-
-        /* Hover effect */
-            div[data-baseweb="radio"] div[role="radio"]:hover {
-            background-color: #ff8127;
-        }
-
-        /* Selected radio option */
-            div[data-baseweb="radio"] div[aria-checked="true"] {
-            background-color: #ffdf5f !important;
-            color: #000000 !important;
-        }
-
-
-        
         /* Make form labels (questions) white */
         label, .stSelectbox label, .stRadio label, .stSlider label {
             color: #ffffff !important;
@@ -149,9 +121,7 @@ bowel_movement_quality = st.selectbox(
         "I tend to be constipated (have difficulty passing stool)"
     ]
 )
-dairy_indicated = st.radio("Do you consume dairy products?", ["Yes", "No"], horizontal=True)
-red_meat_indicated = st.radio("Do you consume red meat?", ["Yes", "No"], horizontal=True)
-alcohol_indicated = st.radio("Do you consume alcohol?", ["Yes", "No"], horizontal=True)
+
 
 
 # Country dropdown
@@ -180,6 +150,30 @@ if 'United states' in sorted_countries:
     sorted_countries.remove('United states')
     sorted_countries.insert(0, 'United states')
 country_of_birth = st.selectbox("What country were you born in?", sorted_countries)
+
+foods_consumed = st.multiselect(
+    "Which of the following foods do you regularly consume?",
+    [
+        # Dairy
+        "Milk", "Yogurt", "Cheese", "Butter", "Ice Cream", "Cream", "Cottage Cheese",
+        # Red Meat
+        "Beef", "Lamb", "Pork", "Bacon", "Sausage", "Veal", "Goat",
+        # Alcohol
+        "Beer", "Wine", "Spirits", "Cocktails", "Cider", "Hard Seltzer",
+        # Low-Fiber Foods
+        "White Bread", "White Rice", "Pasta", "Processed Snacks", "Pastries", "Canned Fruit", "Fruit Juice",
+        # High-FODMAP Foods
+        "Onions", "Garlic", "Apples", "Pears", "Watermelon", "Wheat", "Cashews", "Legumes", "Cauliflower"
+    ]
+)
+
+dairy_indicated = any(item in foods_consumed for item in ["Milk", "Yogurt", "Cheese", "Butter", "Ice Cream", "Cream", "Cottage Cheese"])
+red_meat_indicated = any(item in foods_consumed for item in ["Beef", "Lamb", "Pork", "Bacon", "Sausage", "Veal", "Goat"])
+alcohol_indicated = any(item in foods_consumed for item in ["Beer", "Wine", "Spirits", "Cocktails", "Cider", "Hard Seltzer"])
+low_fiber_indicated = any(item in foods_consumed for item in ["White Bread", "White Rice", "Pasta", "Processed Snacks", "Pastries", "Canned Fruit", "Fruit Juice"])
+high_fodmap_indicated = any(item in foods_consumed for item in ["Onions", "Garlic", "Apples", "Pears", "Watermelon", "Wheat", "Cashews", "Legumes", "Cauliflower"])
+
+
 
 # Microbiome Excel uploader
 st.markdown('<div class="subheader3">Upload Your Gut Biome Data </div>', unsafe_allow_html=True)
