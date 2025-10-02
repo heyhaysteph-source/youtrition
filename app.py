@@ -7,103 +7,72 @@ import random
 st.set_page_config(page_title="Youtrition", layout="centered")
 
 # Custom CSS styling
-st.markdown("""
-    <style>
-        html, body, [class*="css"]  {
-            background-color: #000000 !important;
-            color: #ffffff !important;
-        }
-        .main {
-            background-color: #000000 !important;
-        }
-        header, .css-1v3fvcr, .css-1dp5vir {
-            background-color: #000000 !important;
-        }
-        .stApp {
-            background-color: #000000 !important;
-        }
-        .circle {
-            width: 60px;
-            height: 60px;
-            background-color: #6d31fd;
-            border-radius: 50%;
-            display: inline-block;
-            margin: 10px;
-        }
-        .semi-circle {
-            width: 60px;
-            height: 30px;
-            background-color: #ffdf5f;
-            border-top-left-radius: 60px;
-            border-top-right-radius: 60px;
-            display: inline-block;
-            margin: 10px;
-        }
-        .rectangle {
-            width: 120px;
-            height: 40px;
-            background-color: #066b6b;
-            display: inline-block;
-            margin: 10px;
-        }
-        .header {
-            font-size: 48px;
-            color: #ffffff;
-            font-weight: bold;
-        }
-        .subheader {
-            font-size: 20px;
-            color: #ff8127;
-        }
-        .subheader2 {
-            font-size: 20px;
-            color: #066b6b;
-         }
-        .subheader3 {
-            font-size: 20px;
-            color: #6d31fd;
-        }
-        .subheader4 {
-            font-size: 20px;
-            color: #ffdf5f;
-        }
-        
-        
-        .highlight {
-            background-color: #ffdf5f;
-            color: #000000;
-            padding: 5px 10px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-        .cta-button {
-            background-color: #ff8127;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            border: none;
-        }
-        .stMultiSelect label {
-            color: #ffffff !important;
-            font-weight: bold;
-        }
-        /* Make form labels (questions) white */
-        label, .stSelectbox label, .stRadio label, .stSlider label {
-            color: #ffffff !important;
-        }
-        /* Force checkbox label text to white */
-        div[data-baseweb="checkbox"] label {
-            color: #6d31fd !important;
-            font-weight: bold;
-        }
-
-       
+.circle {
+    width: 60px;
+    height: 60px;
+    background-color: #6d31fd;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 10px;
+}
+.semi-circle {
+    width: 60px;
+    height: 30px;
+    background-color: #ffdf5f;
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+    display: inline-block;
+    margin: 10px;
+}
+.rectangle {
+    width: 120px;
+    height: 40px;
+    background-color: #066b6b;
+    display: inline-block;
+    margin: 10px;
+}
+.header {
+    font-size: 48px;
+    color: #ffffff;
+    font-weight: bold;
+}
+.subheader, .subheader2, .subheader3, .subheader4 {
+    font-size: 20px;
+    font-weight: bold;
+}
+.subheader {
+    color: #ff8127;
+}
+.subheader2 {
+    color: #066b6b;
+}
+.subheader3 {
+    color: #6d31fd;
+}
+.subheader4 {
+    color: #ffdf5f;
+}
+.highlight {
+    background-color: #ffdf5f;
+    color: #000000;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+.cta-button {
+    background-color: #ff8127;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+}
+div[data-baseweb="checkbox"] label {
+    color: #6d31fd !important;
+    font-weight: bold;
+}
 
 
-
-
-        
     </style>
 """, unsafe_allow_html=True)
 
