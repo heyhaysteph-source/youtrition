@@ -50,6 +50,10 @@ import os
 import streamlit as st
 import gdown
 
+#troubleshooting
+st.write("App is loading...")
+
+
 # Download model from Google Drive if needed
 model_path = 'models/random_forest_model.joblib'
 drive_url = 'https://drive.google.com/uc?id=1n7wHSvr2SbyE9erfgqdl0BdXM97MBhgc'
@@ -58,13 +62,18 @@ if not os.path.exists(model_path):
     gdown.download(drive_url, model_path, quiet=False)
 
 # Load model and files
-random_forest = joblib.load(model_path)
-unique_species = joblib.load('models/unique_species.joblib')
-encoder = joblib.load('models/label_encoder.joblib')
-scaler = joblib.load('models/standard_scaler.joblib')
-X_features = joblib.load('models/x_features.joblib')
-y_features = joblib.load('models/y_features_list.joblib')
-complete_dataset_df_clean = pd.read_csv('data/complete_dataset_df_clean.csv')
+try:
+    random_forest = joblib.load('models/random_forest_model.joblib')
+    unique_species = joblib.load('models/unique_species.joblib')
+    encoder = joblib.load('models/label_encoder.joblib')
+    scaler = joblib.load('models/standard_scaler.joblib')
+    X_features = joblib.load('models/x_features.joblib')
+    y_features = joblib.load('models/y_features_list.joblib')
+    complete_dataset_df_clean = pd.read_csv('data/complete_dataset_df_clean.csv')
+    st.success("Model and data loaded successfully.")
+except Exception as e:
+    st.error(f"Error loading model or data: {e}")
+
 
 
 #The code for the UI- using the names from above:
@@ -252,30 +261,30 @@ if st.button("Submit"):
 
         # Run prediction
         try:
-            prediction_df = predict_dietary_recommendations(
-                input_data,
-                microbiome_data,
-                random_forest,
-                encoder,
-                scaler,
-                X_features,
-                y_features,
-                unique_species,
-                complete_dataset_df_clean
-            )
+      #      prediction_df = predict_dietary_recommendations(
+       #         input_data,
+        #        microbiome_data,
+         #       random_forest,
+          #      encoder,
+           #     scaler,
+            #    X_features,
+             #   y_features,
+        #        unique_species,
+         #       complete_dataset_df_clean
+          #  )
+#
+    #        st.markdown("### Your Predicted Dietary Frequencies")
+      #      st.dataframe(prediction_df[y_features])
 
-            st.markdown("### Your Predicted Dietary Frequencies")
-            st.dataframe(prediction_df[y_features])
+ #           st.markdown("### Recommended Adjustments")
+  #          for col in prediction_df.columns:
+   #             if "Recommendation" in col and pd.notna(prediction_df.loc[0, col]):
+    #                st.markdown(f"✅ **{col.replace('_', ' ')}:** {prediction_df.loc[0, col]}")
 
-            st.markdown("### Recommended Adjustments")
-            for col in prediction_df.columns:
-                if "Recommendation" in col and pd.notna(prediction_df.loc[0, col]):
-                    st.markdown(f"✅ **{col.replace('_', ' ')}:** {prediction_df.loc[0, col]}")
-
-        except Exception as e:
-            st.error(f"Prediction failed: {e}")
-    else:
-        st.error("Please upload your microbiome Excel file before submitting.")
+#        except Exception as e:
+ #           st.error(f"Prediction failed: {e}")
+ #   else:
+  #      st.error("Please upload your microbiome Excel file before submitting.")
 
 
 
