@@ -151,21 +151,25 @@ if 'United states' in sorted_countries:
     sorted_countries.insert(0, 'United states')
 country_of_birth = st.selectbox("What country were you born in?", sorted_countries)
 
-foods_consumed = st.multiselect(
-    "Which of the following foods do you regularly consume?",
-    [
-        # Dairy
-        "Milk", "Yogurt", "Cheese", "Butter", "Ice Cream", "Cream", "Cottage Cheese",
-        # Red Meat
-        "Beef", "Lamb", "Pork", "Bacon", "Sausage", "Veal", "Goat",
-        # Alcohol
-        "Beer", "Wine", "Spirits", "Cocktails", "Cider", "Hard Seltzer",
-        # Low-Fiber Foods
-        "White Bread", "White Rice", "Pasta", "Processed Snacks", "Pastries", "Canned Fruit", "Fruit Juice",
-        # High-FODMAP Foods
-        "Onions", "Garlic", "Apples", "Pears", "Watermelon", "Wheat", "Cashews", "Legumes", "Cauliflower"
-    ]
-)
+st.markdown("#### Which of the following foods do you regularly consume?")
+
+items = [
+    "Milk", "Yogurt", "Cheese", "Butter", "Ice Cream", "Cream", "Cottage Cheese",
+    "Beef", "Lamb", "Pork", "Bacon", "Sausage", "Veal", "Goat",
+    "Beer", "Wine", "Spirits", "Cocktails", "Cider", "Hard Seltzer",
+    "White Bread", "White Rice", "Pasta", "Processed Snacks", "Pastries", "Canned Fruit", "Fruit Juice",
+    "Onions", "Garlic", "Apples", "Pears", "Watermelon", "Wheat", "Milk (FODMAP)", "Legumes", "Cauliflower"
+]
+
+# Create toggles in a grid
+selected_items = []
+for i in range(0, len(items), 4):
+    cols = st.columns(4)
+    for j, item in enumerate(items[i:i+4]):
+        with cols[j]:
+            if st.toggle(item):
+                selected_items.append(item)
+
 
 dairy_indicated = any(item in foods_consumed for item in ["Milk", "Yogurt", "Cheese", "Butter", "Ice Cream", "Cream", "Cottage Cheese"])
 red_meat_indicated = any(item in foods_consumed for item in ["Beef", "Lamb", "Pork", "Bacon", "Sausage", "Veal", "Goat"])
