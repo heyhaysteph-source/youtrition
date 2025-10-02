@@ -112,7 +112,6 @@ countries = ['United states', 'Turkey', 'Australia', 'Singapore', 'Spain', 'Mexi
              'Afghanistan', "Cote d'ivoire", 'Algeria', 'Paraguay', 'Lebanon', 'Dominica', 'Bermuda', 'Angola',
              'Somalia', 'Sudan', 'Guyana', 'Isle of man', 'Palestinian territory, occupied', 'Iraq', 'Botswana',
              'Seychelles', 'Macedonia, the former yugoslav republic of', 'Georgia']
-]  # (same list as before)
 sorted_countries = sorted(set(countries), key=lambda x: x.lower())
 if 'United states' in sorted_countries:
     sorted_countries.remove('United states')
