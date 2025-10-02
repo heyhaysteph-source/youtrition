@@ -244,8 +244,59 @@ if st.button("Submit"):
                 recommendation = 'Consider reducing dairy intake.'
             elif rando_rec == 5:
                 recommendation = 'Consider reducing alcohol intake.'
-            else:
-                recommendation = 'Maintain your current diet and lifestyle.'
+                
+            fiber_swaps = {
+                "White Bread": "Whole Grain Bread",
+                "White Rice": "Brown Rice or Quinoa",
+                "Pasta": "Whole Wheat Pasta or Lentil Pasta",
+                "Processed Snacks": "Raw Nuts or Air-Popped Popcorn",
+                "Pastries": "Oatmeal Muffins",
+                "Canned Fruit": "Fresh Fruit with Skin",
+                "Fruit Juice": "Fresh Fruit Smoothies"
+            }
+
+            fodmap_swaps = {
+                "Onions": "Green onion tops",
+                "Garlic": "Garlic-infused oil",
+                "Apples": "Oranges or berries",
+                "Pears": "Pineapple or kiwi",
+                "Watermelon": "Cantaloupe or grapes",
+                "Wheat": "Rice or oats",
+                "Cashews": "Almonds or macadamia nuts",
+                "Legumes": "Firm tofu or canned lentils (rinsed)",
+                "Cauliflower": "Zucchini or eggplant"
+            }
+
+            red_meat_swaps = {
+                "Beef": "Chicken or turkey",
+                "Lamb": "Tempeh or beans",
+                "Pork": "Fish or lentils",
+                "Bacon": "Avocado or smoked salmon",
+                "Sausage": "Veggie sausage or mushrooms",
+                "Veal": "Tofu or chickpeas",
+                "Goat": "Eggs or legumes"
+            }
+
+            dairy_swaps = {
+                "Milk": "Oat milk or almond milk",
+                "Yogurt": "Coconut yogurt or soy yogurt",
+                "Cheese": "Cashew cheese or nutritional yeast",
+                "Butter": "Olive oil or Avocado oil",
+                "Ice Cream": "Banana-based ice cream",
+                "Cream": "Coconut cream",
+                "Cottage Cheese": "Silken tofu or hummus"
+            }
+
+            alcohol_swaps = {
+                "Beer": "Sparkling water with lime",
+                "Wine": "Kombucha or grape juice",
+                "Spirits": "Infused water or tea blends",
+                "Cocktails": "Mocktails with herbs",
+                "Cider": "Apple cider",
+                "Hard Seltzer": "Non-Alcoholic Seltzer"
+                }
+
+            
 
             st.markdown('<div class="circle"></div><div class="semi-circle"></div><div class="rectangle"></div>', unsafe_allow_html=True)
             st.markdown('<div class="subheader">Your personalized nutrition recommendations:</div>', unsafe_allow_html=True)
