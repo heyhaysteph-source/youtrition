@@ -92,7 +92,27 @@ red_meat_indicated = st.selectbox("Do you consume red meat?", ["Yes", "No"])
 alcohol_indicated = st.selectbox("Do you consume alcohol?", ["Yes", "No"])
 
 # Country dropdown
-countries = [...]  # (same list as before)
+countries = ['United states', 'Turkey', 'Australia', 'Singapore', 'Spain', 'Mexico', 'Czech republic',
+             'Trinidad and tobago', 'Canada', 'India', 'Belgium', 'Korea, republic of', 'Bangladesh',
+             'Philippines', 'Dominican republic', 'Moldova, republic of', 'China', 'Poland', 'Germany',
+             'Denmark', 'United kingdom', 'Ireland', 'Russian federation', 'Kenya', 'France', 'South africa',
+             'Venezuela', 'Guam', 'Argentina', 'Japan', 'Uruguay', 'Not provided', 'Greece', 'Switzerland',
+             'New zealand', 'Malawi', 'Finland', 'Puerto rico', 'Brazil', 'Kuwait', 'Hong kong', 'Pakistan',
+             'Italy', 'Jersey', 'Iran, islamic republic of', 'Romania', 'Zambia', 'Panama', 'Estonia', 'Chile',
+             'Croatia', 'Tanzania, united republic of', 'Syrian arab republic', 'Hungary', 'Uzbekistan',
+             'Gibraltar', 'Kazakhstan', 'Colombia', 'Norway', 'Ukraine', 'Albania', 'Serbia', 'Austria',
+             'Malaysia', 'Latvia', 'Nepal', 'Guatemala', 'Belarus', 'Ghana', 'Jamaica', 'Israel', 'Bolivia',
+             'Bulgaria', 'Portugal', 'Netherlands', 'Sweden', 'Viet nam', 'Mauritius', 'Tajikistan',
+             'Netherlands antilles', 'Thailand', 'Bahrain', 'Iceland', 'Uganda', 'Cyprus', 'Egypt', 'Cambodia',
+             'Luxembourg', 'Indonesia', 'Taiwan, province of china', 'Sri lanka', 'Slovenia', 'Peru',
+             'Not collected', 'Bosnia and herzegovina', 'United arab emirates',
+             'United states minor outlying islands', 'Saudi arabia', 'Mongolia', 'Malta', 'Zimbabwe',
+             'Libyan arab jamahiriya', 'Lithuania', 'Morocco', 'El salvador', 'Guernsey', 'Azerbaijan', 'Fiji',
+             'Tunisia', 'Virgin islands, u.s.', 'Nigeria', 'Costa rica', 'Cuba', 'Slovakia', 'Ethiopia',
+             'Afghanistan', "Cote d'ivoire", 'Algeria', 'Paraguay', 'Lebanon', 'Dominica', 'Bermuda', 'Angola',
+             'Somalia', 'Sudan', 'Guyana', 'Isle of man', 'Palestinian territory, occupied', 'Iraq', 'Botswana',
+             'Seychelles', 'Macedonia, the former yugoslav republic of', 'Georgia']
+]  # (same list as before)
 sorted_countries = sorted(set(countries), key=lambda x: x.lower())
 if 'United states' in sorted_countries:
     sorted_countries.remove('United states')
