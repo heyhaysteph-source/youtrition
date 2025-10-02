@@ -53,7 +53,7 @@ st.markdown("""
         }
         .subheader {
             font-size: 20px;
-            color: #ff8127;
+            color: #066b6b;
         }
         .highlight {
             background-color: #ffdf5f;
