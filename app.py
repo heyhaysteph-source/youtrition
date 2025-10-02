@@ -302,6 +302,44 @@ if st.button("Submit"):
             st.markdown('<div class="subheader">Your personalized nutrition recommendations:</div>', unsafe_allow_html=True)
             st.markdown(f'<div class="highlight">{recommendation}</div>', unsafe_allow_html=True)
 
+            swap_recommendations = []
+
+            if rando_rec == 1 and low_fiber_indicated:
+                for item in selected_items:
+                    if item in fiber_swaps:
+                        swap_recommendations.append(f"{item} → {fiber_swaps[item]}")
+            
+            elif rando_rec == 2 and high_fodmap_indicated:
+                for item in selected_items:
+                    if item in fodmap_swaps:
+                        swap_recommendations.append(f"{item} → {fodmap_swaps[item]}")
+            
+            elif rando_rec == 3 and red_meat_indicated:
+                for item in selected_items:
+                    if item in red_meat_swaps:
+                        swap_recommendations.append(f"{item} → {red_meat_swaps[item]}")
+            
+            elif rando_rec == 4 and dairy_indicated:
+                for item in selected_items:
+                    if item in dairy_swaps:
+                        swap_recommendations.append(f"{item} → {dairy_swaps[item]}")
+            
+            elif rando_rec == 5 and alcohol_indicated:
+                for item in selected_items:
+                    if item in alcohol_swaps:
+                        swap_recommendations.append(f"{item} → {alcohol_swaps[item]}")
+
+
+            if swap_recommendations:
+                st.markdown('<div class="subheader4">🔄 Suggested Swaps:</div>', unsafe_allow_html=True)
+
+                for swap in swap_recommendations:
+                    st.markdown(f"- {swap}")
+            else:
+                st.markdown("✅ No swaps needed based on your current selections.")
+
+
+
         except Exception as e:
             st.error(f"Prediction failed: {e}")
     else:
