@@ -93,12 +93,13 @@ st.markdown("""
         div[data-baseweb="radio"] input:checked + div {
             background-color: #ffdf5f !important;
             color: #000000 !important;
+        }
         /* Make form labels (questions) white */
         label, .stSelectbox label, .stRadio label, .stSlider label {
             color: #ffffff !important;
         }
 
-        }
+        
     </style>
 """, unsafe_allow_html=True)
 
