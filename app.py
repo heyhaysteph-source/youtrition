@@ -224,3 +224,69 @@ if st.button("Submit"):
         st.error("Please upload your microbiome Excel file before submitting.")
 
 
+# Increased Fiber Recommendation
+    bowel_movement_quality = X_new['bowel_movement_quality'].iloc[0] if 'bowel_movement_quality' in X_new.columns else None
+    vegetable_frequency = y_pred_unencoded_df['vegetable_frequency'].iloc[0] if 'vegetable_frequency' in y_pred_unencoded_df.columns else None
+    bowel_movement_frequency = X_new['bowel_movement_frequency'].iloc[0] if 'bowel_movement_frequency' in X_new.columns else None
+
+    if (bowel_movement_quality is not None and 'constipated' in str(bowel_movement_quality).lower()) or \
+       (vegetable_frequency is not None and vegetable_frequency not in ['Daily', 'Regularly (3-5 times/week)', 'Never', 'Not provided', 'Not collected']) or \
+       (bowel_movement_frequency is not None and bowel_movement_frequency in ['Four', 'Five or more']):
+        recommendations['Increased Fiber Recommendation'] = 'Consider increasing fiber intake, including addition of soluble fiber-rich vegetables.'
+    else:
+        recommendations['Increased Fiber Recommendation'] = np.nan
+
+    # Low FODMAP Recommendation
+    ibs_status = X_new['ibs'].iloc[0] if 'ibs' in X_new.columns else None
+    ibd_status = X_new['ibd'].iloc[0] if 'ibd' in X_new.columns else None
+
+    if (ibs_status is not None and ibs_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected']) or \
+       (ibd_status is not None and ibd_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected']):
+        recommendations['Low FODMAP Recommendation'] = 'Consider a Low FODMAP diet with decreased carbohydrates.'
+    else:
+        recommendations['Low FODMAP Recommendation'] = np.nan
+
+    # Reduce Dairy Intake Recommendation
+    milk_cheese_frequency = y_pred_unencoded_df['milk_cheese_frequency'].iloc[0] if 'milk_cheese_frequency' in y_pred_unencoded_df.columns else None
+
+    # No need to recommend the reduction of food categories the individual already indicated they don't include in their diet
+    if 'dairy_indicated' in original_data.columns and original_data['dairy_indicated'].iloc[0] == 'No':
+        recommendations['Reduce Dairy Recommendation'] = np.nan
+    elif (milk_cheese_frequency is not None and milk_cheese_frequency not in ['Rarely (less than once/week)', 'Never', 'Not provided', 'Not collected']) and \
+       ((ibs_status is not None and ibs_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected']) or \
+        (ibd_status is not None and ibd_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected'])):
+        recommendations['Reduce Dairy Recommendation'] = 'Consider reducing dairy intake or using dairy substitutes (such as soy or almond milk).'
+    else:
+        recommendations['Reduce Dairy Recommendation'] = np.nan
+
+    # Reduce Red Meat Intake Recommendation
+    red_meat_frequency = y_pred_unencoded_df['red_meat_frequency'].iloc[0] if 'red_meat_frequency' in y_pred_unencoded_df.columns else None
+
+    if 'red_meat_indicated' in original_data.columns and original_data['red_meat_indicated'].iloc[0] == 'No':
+        recommendations['Reduce Red Meat Recommendation'] = np.nan
+    elif (red_meat_frequency is not None and red_meat_frequency not in ['Rarely (less than once/week)', 'Occasionally (1-2 times/week)', 'Never', 'Not provided', 'Not collected']) and \
+       ((ibs_status is not None and ibs_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected']) or \
+        (ibd_status is not None and ibd_status not in [np.nan, 'I do not have this condition', 'Unspecified', 'Not provided', 'Not collected'])):
+        recommendations['Reduce Red Meat Recommendation'] = 'Consider reducing red meat intake.'
+    else:
+        recommendations['Reduce Red Meat Recommendation'] = np.nan
+
+    # Reduce Alcohol Intake Recommendation
+    alcohol_frequency = y_pred_unencoded_df['alcohol_frequency'].iloc[0] if 'alcohol_frequency' in y_pred_unencoded_df.columns else None
+    if 'alcohol_indicated' in original_data.columns and original_data['alcohol_indicated'].iloc[0] == 'No':
+        recommendations['Reduce Alcohol Recommendation'] = np.nan
+    elif (alcohol_frequency is not None and alcohol_frequency not in ['Rarely (a few times/month)', 'Never', 'Not provided', 'Not collected']) or \
+       (alcohol_frequency is not None and alcohol_frequency in ['Regularly (3-5 times/week)', 'Daily']):
+        recommendations['Reduce Alcohol Recommendation'] = 'Consider reducing alcohol intake.'
+    else:
+        recommendations['Reduce Alcohol Recommendation'] = np.nan
+
+# Add recommendations to the output DataFrame
+    output_df = y_pred_unencoded_df.copy()
+    for key, value in recommendations.items():
+        output_df[key] = value
+
+    return output_df
+"""
+
+
