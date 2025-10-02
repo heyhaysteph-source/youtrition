@@ -39,6 +39,7 @@
 #**Template microbiome file**
 #https://drive.google.com/file/d/1waN6HlKx9ARHKDnoyliszg_2HPR9Nqof/view?usp=drive_link
 
+"""
 # Start by importing the following libraries into the python script:
 import pandas as pd # To import datasets as dataframes
 pd.options.mode.chained_assignment = None  # default='warn'
@@ -50,6 +51,8 @@ import os
 import streamlit as st
 import gdown
 
+"""
+
 import streamlit as st
 st.set_page_config(page_title="Youtrition", layout="centered")
 
@@ -57,17 +60,18 @@ st.set_page_config(page_title="Youtrition", layout="centered")
 #troubleshooting
 st.write("App is loading...")
 
-
+"""
 # Download model from Google Drive if needed
 model_path = 'models/random_forest_model.joblib'
 drive_url = 'https://drive.google.com/uc?id=1n7wHSvr2SbyE9erfgqdl0BdXM97MBhgc'
 if not os.path.exists(model_path):
     os.makedirs('models', exist_ok=True)
     gdown.download(drive_url, model_path, quiet=False)
-
+"""
 #troubleshooting
 st.write("Model is loading...")
 
+"""
 # Load model and files
 try:
     random_forest = joblib.load('models/random_forest_model.joblib')
@@ -83,8 +87,70 @@ except Exception as e:
 
 #troubleshooting
 st.write("Documents are loading...")
-
+"""
 #The code for the UI- using the names from above:
+
+st.markdown("""
+    <style>
+        html, body, [class*="css"]  {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .circle {
+            width: 60px;
+            height: 60px;
+            background-color: #6d31fd;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 10px;
+        }
+        .semi-circle {
+            width: 60px;
+            height: 30px;
+            background-color: #ffdf5f;
+            border-top-left-radius: 60px;
+            border-top-right-radius: 60px;
+            display: inline-block;
+            margin: 10px;
+        }
+        .rectangle {
+            width: 120px;
+            height: 40px;
+            background-color: #066b6b;
+            display: inline-block;
+            margin: 10px;
+        }
+        .header {
+            font-size: 48px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .subheader {
+            font-size: 20px;
+            color: #ff8127;
+        }
+        .highlight {
+            background-color: #ffdf5f;
+            color: #000000;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .cta-button {
+            background-color: #ff8127;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            border: none;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+
+st.markdown('<div class="header">Youtrition</div>', unsafe_allow_html=True)
+st.markdown('<div class="subheader">Personalized nutrition from your gut microbes</div>', unsafe_allow_html=True)
+st.markdown('<div class="circle"></div><div class="semi-circle"></div><div class="rectangle"></div>', unsafe_allow_html=True)
 
 
 
@@ -159,6 +225,8 @@ required_species = [
     's__ovatus', 's__aerofaciens', 's__nitroreducens', 's__parainfluenzae', 's__obeum'
 ]
 
+"""
+
 if uploaded_file:
     try:
         df = pd.read_excel(uploaded_file)
@@ -176,6 +244,8 @@ if uploaded_file:
 
     except Exception as e:
         st.error(f"Error reading or processing file: {e}")
+
+"""
 
 # Submit button
 if st.button("Submit"):
@@ -206,7 +276,7 @@ if st.button("Submit"):
             'red_meat_indicated': red_meat_indicated,
             'alcohol_indicated': alcohol_indicated
         }
-
+"""
         # Run prediction
         try:
             prediction_df = predict_dietary_recommendations(
@@ -233,14 +303,16 @@ if st.button("Submit"):
             st.error(f"Prediction failed: {e}")
     else:
         st.error("Please upload your microbiome Excel file before submitting.")
+"""
 
 
 
-
-
+"""
 # The self contained prediction function
 
 def predict_dietary_recommendations(input_data, microbiome_data, model, encoder, scaler, X_features, y_features, unique_species, original_data_for_encoding):
+"""
+
     """
     Preprocesses input data, makes a prediction using the trained random forest model,
     and returns the unencoded predictions with dietary recommendations.
@@ -261,6 +333,8 @@ def predict_dietary_recommendations(input_data, microbiome_data, model, encoder,
         A Pandas DataFrame containing the unencoded dietary recommendations
                       and additional columns for recommended adjustments.
     """
+
+"""
     # Create a DataFrame from the input data (from the Streamlit app prototype)
     X_new = pd.DataFrame([input_data])
     original_data = pd.DataFrame([input_data]) # To save all inputs
@@ -426,14 +500,15 @@ def predict_dietary_recommendations(input_data, microbiome_data, model, encoder,
         output_df[key] = value
 
     return output_df
+"""
 
 # First, allow the user to input their information via the UI, starting with IBS or IBD diagnosis
 # Using these levels:
 # Standardizing values like 'Unknown' to NaN and maintaining this capitalization
-complete_dataset_df_clean['ibs'].unique()
+#complete_dataset_df_clean['ibs'].unique()
 
 # Options for general diet type are:
-complete_dataset_df_clean['diet_type'].unique()
+#complete_dataset_df_clean['diet_type'].unique()
 # Omnivore, Omnivore but do not eat red meat, Vegetarian, Vegetarian but eat seafood, and Vegan
 
 # Allow for boolean input of potential dietary irritants if present in diet
@@ -441,11 +516,12 @@ complete_dataset_df_clean['diet_type'].unique()
 # Accept input for bowel movement frequency (as an integer, should be converted in the ML function)
 
 # Allow input for bowel movement quality symptom with these options:
-complete_dataset_df_clean['bowel_movement_quality'].unique()
+#complete_dataset_df_clean['bowel_movement_quality'].unique()
 
 # Accept input for country of birth:
-complete_dataset_df_clean['country_of_birth'].unique() # Note capitalization should be the same as these levels
+#complete_dataset_df_clean['country_of_birth'].unique() # Note capitalization should be the same as these levels
 
+"""
 # can pass that dataframe into the ML operation function
 predicted_diet_from_example_inputs = predict_dietary_recommendations(
     example_inputs_dict,
@@ -458,13 +534,10 @@ predicted_diet_from_example_inputs = predict_dietary_recommendations(
     unique_species,
     complete_dataset_df_clean) # Pass the original data for inverse encoding
 
-
-
-
-
-
-
-"""## References
+"""
+    
+"""
+## References
 
 
 
