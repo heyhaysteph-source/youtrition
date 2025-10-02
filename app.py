@@ -167,6 +167,7 @@ required_species = [
     's__ovatus', 's__aerofaciens', 's__nitroreducens', 's__parainfluenzae', 's__obeum'
 ]
 
+# Microbiome Excel uploader logic
 if uploaded_file:
     try:
         df = pd.read_excel(uploaded_file)
@@ -194,6 +195,12 @@ def predict_dietary_recommendations(input_data):
 # Submit button logic
 if st.button("Submit"):
     if uploaded_file and 'microbiome_data' in locals():
+        # Validate required fields
+        required_fields = [ibs, ibd, diet_type, bowel_movement_quality, country_of_birth]
+        if "" in required_fields:
+            st.error("Please complete all fields before submitting.")
+            st.stop()
+
         st.success("Thank you! Your responses have been recorded.")
         st.write("Here's a summary of your input:")
         st.write({
@@ -238,7 +245,7 @@ if st.button("Submit"):
 
             st.markdown('<div class="circle"></div><div class="semi-circle"></div><div class="rectangle"></div>', unsafe_allow_html=True)
             st.markdown('<div class="subheader">Your personalized nutrition recommendations:</div>', unsafe_allow_html=True)
-            st.write(recommendation)
+            st.markdown(f'<div class="highlight">{recommendation}</div>', unsafe_allow_html=True)
 
         except Exception as e:
             st.error(f"Prediction failed: {e}")
