@@ -50,15 +50,6 @@ import os
 import streamlit as st
 import gdown
 
-# Use the following variable names for loading each of the files:
-random_forest = joblib.load('random_forest_model.joblib')
-unique_species = joblib.load('unique_species.joblib')
-encoder = joblib.load('label_encoder.joblib')
-scaler = joblib.load('standard_scaler.joblib')
-X_features = joblib.load('x_features.joblib')
-y_features = joblib.load('y_features_list.joblib')
-complete_dataset_df_clean = pd.read_csv('complete_dataset_df_clean.csv')
-
 # Download model from Google Drive if needed
 model_path = 'models/random_forest_model.joblib'
 drive_url = 'https://drive.google.com/uc?id=1n7wHSvr2SbyE9erfgqdl0BdXM97MBhgc'
@@ -75,21 +66,6 @@ X_features = joblib.load('models/x_features.joblib')
 y_features = joblib.load('models/y_features_list.joblib')
 complete_dataset_df_clean = pd.read_csv('data/complete_dataset_df_clean.csv')
 
-# User data import format uses a python dictionary structure:
-example_inputs_dict = {
-    'ibs': 'True',
-    'ibd': 'False',
-    'diet_type': 'Omnivore',
-    'Do you consume dairy products?': 'Yes',
-    'Do you consume red meat?': 'No',
-    'Do you consume alcohol?': 'Yes',
-    'bowel_movement_frequency_numerical': 2,
-    'bowel_movement_quality': 'I tend to be constipated (have difficulty passing stool) - type 1 and 2',
-    'country_of_birth': 'Canada'
-}
-
-# Microbiome data csv file will be converted to a dataframe and saved as a variable
-microbiome_data = pd.read_csv('template_microbiome_data.csv')
 
 #The code for the UI- using the names from above:
 import streamlit as st
