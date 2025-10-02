@@ -266,8 +266,8 @@ if st.button("Submit"):
                 "Wheat": "Rice or oats",
                 "Cashews": "Almonds or macadamia nuts",
                 "Legumes": "Firm tofu or canned lentils (rinsed)",
-                "Cauliflower": "Zucchini or eggplant"
-                "Milk": "Oat milk or almond milk",
+                "Cauliflower": "Zucchini or eggplant",
+                "Milk": "Oat Milk or Almond Milk",
                 "Yogurt": "Coconut yogurt or soy yogurt",
                 "Cheese": "Cashew cheese or nutritional yeast",
                 "Butter": "Olive oil",
