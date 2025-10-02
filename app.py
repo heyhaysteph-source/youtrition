@@ -224,6 +224,10 @@ if st.button("Submit"):
         st.error("Please upload your microbiome Excel file before submitting.")
 
 
+
+def predict_dietary_recommendations(
+
+
 # Increased Fiber Recommendation
     bowel_movement_quality = X_new['bowel_movement_quality'].iloc[0] if 'bowel_movement_quality' in X_new.columns else None
     vegetable_frequency = y_pred_unencoded_df['vegetable_frequency'].iloc[0] if 'vegetable_frequency' in y_pred_unencoded_df.columns else None
