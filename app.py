@@ -53,7 +53,7 @@ st.markdown("""
         }
         .subheader {
             font-size: 20px;
-            color: #066b6b;
+            color: #ff8127;
         }
         .highlight {
             background-color: #ffdf5f;
@@ -109,7 +109,8 @@ st.markdown('<div class="subheader">Personalized nutrition from your gut microbe
 st.markdown('<div class="circle"></div><div class="semi-circle"></div><div class="rectangle"></div>', unsafe_allow_html=True)
 
 # Input fields
-st.write("Please answer the following questions to calculate your personalized nutrition advice:")
+st.markdown('<p style="color:#ffffff;"Please answer the following questions to calculate your personalized nutrition advice:", unsafe_allow_html=True)
+()
 
 ibs = st.selectbox("Do you have Irritable Bowel Syndrome (IBS)?", 
                    ["","Yes - Diagnosed by a Medical Professional", "Yes- Self Diagnosis", "No"])
