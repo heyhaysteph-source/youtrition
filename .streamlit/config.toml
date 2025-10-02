@@ -1,0 +1,7 @@
+[theme]
+base = "dark"
+primaryColor = "#ff8127"                # Neon orange
+backgroundColor = "#000000"             # Jet black
+secondaryBackgroundColor = "#121212"    # Charcoal for containers
+textColor = "#ffffff"                   # Bright white
+font = "sans serif"
