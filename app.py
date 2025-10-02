@@ -7,70 +7,72 @@ import random
 st.set_page_config(page_title="Youtrition", layout="centered")
 
 # Custom CSS styling
-.circle {
-    width: 60px;
-    height: 60px;
-    background-color: #6d31fd;
-    border-radius: 50%;
-    display: inline-block;
-    margin: 10px;
-}
-.semi-circle {
-    width: 60px;
-    height: 30px;
-    background-color: #ffdf5f;
-    border-top-left-radius: 60px;
-    border-top-right-radius: 60px;
-    display: inline-block;
-    margin: 10px;
-}
-.rectangle {
-    width: 120px;
-    height: 40px;
-    background-color: #066b6b;
-    display: inline-block;
-    margin: 10px;
-}
-.header {
-    font-size: 48px;
-    color: #ffffff;
-    font-weight: bold;
-}
-.subheader, .subheader2, .subheader3, .subheader4 {
-    font-size: 20px;
-    font-weight: bold;
-}
-.subheader {
-    color: #ff8127;
-}
-.subheader2 {
-    color: #066b6b;
-}
-.subheader3 {
-    color: #6d31fd;
-}
-.subheader4 {
-    color: #ffdf5f;
-}
-.highlight {
-    background-color: #ffdf5f;
-    color: #000000;
-    padding: 5px 10px;
-    border-radius: 10px;
-    font-weight: bold;
-}
-.cta-button {
-    background-color: #ff8127;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    border: none;
-}
-div[data-baseweb="checkbox"] label {
-    color: #6d31fd !important;
-    font-weight: bold;
-}
+st.markdown("""
+    <syle>
+        .circle {
+            width: 60px;
+            height: 60px;
+            background-color: #6d31fd;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 10px;
+        }
+        .semi-circle {
+            width: 60px;
+            height: 30px;
+            background-color: #ffdf5f;
+            border-top-left-radius: 60px;
+            border-top-right-radius: 60px;
+            display: inline-block;
+            margin: 10px;
+        }
+        .rectangle {
+            width: 120px;
+            height: 40px;
+            background-color: #066b6b;
+            display: inline-block;
+            margin: 10px;
+        }
+        .header {
+            font-size: 48px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .subheader, .subheader2, .subheader3, .subheader4 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .subheader {
+            color: #ff8127;
+        }
+        .subheader2 {
+            color: #066b6b;
+        }
+        .subheader3 {
+            color: #6d31fd;
+        }
+        .subheader4 {
+            color: #ffdf5f;
+        }
+        .highlight {
+            background-color: #ffdf5f;
+            color: #000000;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .cta-button {
+            background-color: #ff8127;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            border: none;
+        }
+        div[data-baseweb="checkbox"] label {
+            color: #6d31fd !important;
+            font-weight: bold;
+        }
 
 
     </style>
